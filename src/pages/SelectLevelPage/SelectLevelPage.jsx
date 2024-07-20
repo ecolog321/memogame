@@ -23,6 +23,16 @@ export function SelectLevelPage() {
             </Link>
           </li>
         </ul>
+        <div>
+          <div>
+            <label htmlFor="level">Стандантрый</label>
+            <input type="radio" name="level" />
+          </div>
+          <div>
+            <label htmlFor="level">Упрощённый</label>
+            <input type="radio" name="level" />
+          </div>
+        </div>
       </div>
     </div>
   );
