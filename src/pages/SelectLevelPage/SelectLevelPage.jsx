@@ -23,16 +23,17 @@ export function SelectLevelPage() {
             </Link>
           </li>
         </ul>
-        <div>
-          <div>
+        <div className={styles.difficult}>
+          <div className={styles.form_radio_btn}>
             <label htmlFor="level">Стандантрый</label>
-            <input type="radio" name="level" />
+            <input type="radio" name="level" value="standart" />
           </div>
-          <div>
+          <div className={styles.form_radio_btn}>
             <label htmlFor="level">Упрощённый</label>
-            <input type="radio" name="level" />
+            <input type="radio" name="level" value="easy" />
           </div>
         </div>
+        <button className={styles.button}>Начать</button>
       </div>
     </div>
   );

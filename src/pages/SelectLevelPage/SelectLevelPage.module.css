@@ -62,3 +62,51 @@
 .levelLink:visited {
   color: #0080c1;
 }
+
+.form_radio_btn {
+	display: inline-block;
+	margin-right: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  background-color: #0080c1;
+  border-radius: 12px;
+ 
+}
+.form_radio_btn input[type=radio] {
+	display: none;
+}
+.form_radio_btn label {
+	display: inline-block;
+	cursor: pointer;
+	padding: 0px 15px;
+	line-height: 34px;
+	border: 1px solid #999;
+	border-radius: 6px;
+	user-select: none;
+  border-radius: 15px;
+}
+ 
+/* Checked */
+.form_radio_btn input[type=radio]:checked + label {
+	background: #966d1c;
+}
+ 
+/* Hover */
+.form_radio_btn label:hover {
+	color: #ffffff;
+}
+
+.button {
+color: #ffffff;
+font-weight: 700;
+font-size: 28px;
+background-color: #7AC100;
+width: 200px;
+height: 80px;
+border-radius: 12px;
+border: transparent;
+}
+
+.difficult{
+  margin-bottom: 15px;
+}

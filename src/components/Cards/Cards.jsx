@@ -51,6 +51,9 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   // Дата конца игры
   const [gameEndDate, setGameEndDate] = useState(null);
 
+  //количество жизней
+  //const [lifePoint, setLifePoint] = useState(3);
+
   // Стейт для таймера, высчитывается в setInteval на основе gameStartDate и gameEndDate
   const [timer, setTimer] = useState({
     seconds: 0,
@@ -124,7 +127,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
     });
 
     const playerLost = openCardsWithoutPair.length >= 2;
-
+    //попытки
     // "Игрок проиграл", т.к на поле есть две открытые карты без пары
     if (playerLost) {
       finishGame(STATUS_LOST);
