@@ -132,20 +132,17 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
     });
     console.log(openCards);
 
-    setTimeout(() => {
-      if (openCards.length === 2) {
+    const playerLost = openCardsWithoutPair.length >= 2;
+    // "Игрок проиграл", т.к на поле есть две открытые карты без пары
+    if (playerLost) {
+      setTimeout(() => {
         const gueesedCard = cards.map(card => {
           console.log(openCardsWithoutPair);
           return openCardsWithoutPair.find(c => c.id === card.id) ? { ...card, open: false } : { ...card };
         });
         console.log(gueesedCard);
         setCards(gueesedCard);
-      }
-    }, 300);
-
-    const playerLost = openCardsWithoutPair.length >= 2;
-    // "Игрок проиграл", т.к на поле есть две открытые карты без пары
-    if (playerLost) {
+      }, 300);
       handleLifePoints();
     }
 
