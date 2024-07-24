@@ -52,7 +52,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   const [gameEndDate, setGameEndDate] = useState(null);
 
   //количество жизней
-  //const [lifePoint, setLifePoint] = useState(3);
+  const [lifePoint, setLifePoint] = useState(3);
 
   // Стейт для таймера, высчитывается в setInteval на основе gameStartDate и gameEndDate
   const [timer, setTimer] = useState({
@@ -76,6 +76,11 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
     setGameEndDate(null);
     setTimer(getTimerValue(null, null));
     setStatus(STATUS_PREVIEW);
+    setLifePoint(3);
+  }
+
+  function handleLifePoints() {
+    setLifePoint(lifePoint - 1);
   }
 
   /**
@@ -125,11 +130,26 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
 
       return false;
     });
+    console.log(openCards);
+
+    setTimeout(() => {
+      if (openCards.length === 2) {
+        const gueesedCard = cards.map(card => {
+          console.log(openCardsWithoutPair);
+          return openCardsWithoutPair.find(c => c.id === card.id) ? { ...card, open: false } : { ...card };
+        });
+        console.log(gueesedCard);
+        setCards(gueesedCard);
+      }
+    }, 300);
 
     const playerLost = openCardsWithoutPair.length >= 2;
-    //попытки
     // "Игрок проиграл", т.к на поле есть две открытые карты без пары
     if (playerLost) {
+      handleLifePoints();
+    }
+
+    if (lifePoint <= 1) {
       finishGame(STATUS_LOST);
       return;
     }
@@ -186,6 +206,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
             </div>
           ) : (
             <>
+              <p className={styles.previewText}>Количество жизней {lifePoint}</p>
               <div className={styles.timerValue}>
                 <div className={styles.timerDescription}>min</div>
                 <div>{timer.minutes.toString().padStart("2", "0")}</div>

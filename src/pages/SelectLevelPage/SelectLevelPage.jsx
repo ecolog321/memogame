@@ -1,26 +1,40 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./SelectLevelPage.module.css";
+import { useState } from "react";
 
 export function SelectLevelPage() {
+  const [valueLevel, setValueLevel] = useState();
+  const navigate = useNavigate();
+
+  const handleLevel = e => {
+    e.preventDefault();
+    setValueLevel(e.target.value);
+  };
+
+  function startGame() {
+    navigate(`game/${valueLevel}`);
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
         <h1 className={styles.title}>Выбери сложность</h1>
+        <p>Текущая сложность {valueLevel}</p>
         <ul className={styles.levels}>
           <li className={styles.level}>
-            <Link className={styles.levelLink} to="/game/3">
+            <button className={styles.levelLink} value={3} onClick={handleLevel}>
               1
-            </Link>
+            </button>
           </li>
           <li className={styles.level}>
-            <Link className={styles.levelLink} to="/game/6">
+            <button className={styles.levelLink} value={6} onClick={handleLevel}>
               2
-            </Link>
+            </button>
           </li>
           <li className={styles.level}>
-            <Link className={styles.levelLink} to="/game/9">
+            <button className={styles.levelLink} value={9} onClick={handleLevel}>
               3
-            </Link>
+            </button>
           </li>
         </ul>
         <div className={styles.difficult}>
@@ -33,7 +47,9 @@ export function SelectLevelPage() {
             <input type="radio" name="level" value="easy" />
           </div>
         </div>
-        <button className={styles.button}>Начать</button>
+        <button className={styles.button} onClick={startGame}>
+          Начать
+        </button>
       </div>
     </div>
   );
