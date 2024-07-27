@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./SelectLevelPage.module.css";
 import { useState } from "react";
+import { useLevelContext } from "../../context/hooks/useLevelContext";
 
 export function SelectLevelPage() {
   const [valueLevel, setValueLevel] = useState();
   const navigate = useNavigate();
+  const { level, chooseLevel } = useLevelContext();
 
   const handleLevel = e => {
     e.preventDefault();
@@ -13,6 +15,8 @@ export function SelectLevelPage() {
 
   function startGame() {
     navigate(`game/${valueLevel}`);
+
+    console.log(level);
   }
 
   return (
@@ -39,11 +43,15 @@ export function SelectLevelPage() {
         </ul>
         <div className={styles.difficult}>
           <div className={styles.form_radio_btn}>
-            <label htmlFor="level">Стандантрый</label>
+            <label htmlFor="level" onClick={chooseLevel("standart")}>
+              Стандантрый
+            </label>
             <input type="radio" name="level" value="standart" />
           </div>
           <div className={styles.form_radio_btn}>
-            <label htmlFor="level">Упрощённый</label>
+            <label htmlFor="level" onClick={chooseLevel("easy")}>
+              Упрощённый
+            </label>
             <input type="radio" name="level" value="easy" />
           </div>
         </div>

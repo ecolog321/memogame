@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import { GamePage } from "./pages/GamePage/GamePage";
-import { SelectLevelPage } from "./pages/SelectLevelPage/SelectLevelPage";
+import { App } from "./App";
 
 export const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <SelectLevelPage />,
+      element: <App />,
     },
     {
       path: "/game/:pairsCount",
