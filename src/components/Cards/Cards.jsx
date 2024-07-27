@@ -5,6 +5,7 @@ import styles from "./Cards.module.css";
 import { EndGameModal } from "../../components/EndGameModal/EndGameModal";
 import { Button } from "../../components/Button/Button";
 import { Card } from "../../components/Card/Card";
+import { useLevelContext } from "../../context/hooks/useLevelContext";
 
 // Игра закончилась
 const STATUS_LOST = "STATUS_LOST";
@@ -51,8 +52,10 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   // Дата конца игры
   const [gameEndDate, setGameEndDate] = useState(null);
 
+  const { difficult } = useLevelContext();
+
   //количество жизней
-  const [lifePoint, setLifePoint] = useState(3);
+  const [lifePoint, setLifePoint] = useState(difficult === "easy" ? 3 : 1);
 
   // Стейт для таймера, высчитывается в setInteval на основе gameStartDate и gameEndDate
   const [timer, setTimer] = useState({
@@ -130,23 +133,20 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
 
       return false;
     });
-    console.log(openCards);
 
     const playerLost = openCardsWithoutPair.length >= 2;
     // "Игрок проиграл", т.к на поле есть две открытые карты без пары
     if (playerLost) {
       setTimeout(() => {
         const gueesedCard = cards.map(card => {
-          console.log(openCardsWithoutPair);
           return openCardsWithoutPair.find(c => c.id === card.id) ? { ...card, open: false } : { ...card };
         });
-        console.log(gueesedCard);
         setCards(gueesedCard);
       }, 300);
       handleLifePoints();
     }
 
-    if (lifePoint <= 1) {
+    if (lifePoint < 1) {
       finishGame(STATUS_LOST);
       return;
     }

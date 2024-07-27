@@ -1,10 +1,10 @@
-import { LevelContext } from "./context/levelContext/levelContext";
+import { LevelProvider } from "./context/levelContext/levelContext";
 import { SelectLevelPage } from "./pages/SelectLevelPage/SelectLevelPage";
 
 export const App = () => {
   return (
-    <LevelContext.Provider>
+    <LevelProvider>
       <SelectLevelPage></SelectLevelPage>
-    </LevelContext.Provider>
+    </LevelProvider>
   );
 };

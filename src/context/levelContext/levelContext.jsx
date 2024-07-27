@@ -2,12 +2,12 @@ import { createContext, useState } from "react";
 export const LevelContext = createContext(null);
 
 export const LevelProvider = ({ children }) => {
-  const [level, setLevel] = useState("standart");
+  const [difficult, setDifficult] = useState("standart");
 
-  function chooseLevel(value) {
-    console.log(level);
-    setLevel(value);
+  function chooseDifficult(value) {
+    setDifficult(value);
+    console.log(value);
   }
 
-  return <LevelContext.Provider value={{ level, chooseLevel }}>{children}</LevelContext.Provider>;
+  return <LevelContext.Provider value={{ difficult, chooseDifficult }}>{children}</LevelContext.Provider>;
 };
