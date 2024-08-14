@@ -53,10 +53,8 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   const [gameEndDate, setGameEndDate] = useState(null);
 
   const { difficult } = useLevelContext();
-
   //количество жизней
   const [lifePoint, setLifePoint] = useState(difficult === "easy" ? 3 : 1);
-
   // Стейт для таймера, высчитывается в setInteval на основе gameStartDate и gameEndDate
   const [timer, setTimer] = useState({
     seconds: 0,
@@ -238,6 +236,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
             gameDurationSeconds={timer.seconds}
             gameDurationMinutes={timer.minutes}
             onClick={resetGame}
+            isLeader={pairsCount === 9}
           />
         </div>
       ) : null}

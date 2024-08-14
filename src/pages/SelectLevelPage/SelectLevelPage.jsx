@@ -12,7 +12,7 @@ export function SelectLevelPage() {
   const handleLevel = e => {
     e.preventDefault();
     setValueLevel(e.target.value);
-    console.log(valueLevel);
+    console.log(e.target.value);
   };
 
   function startGame() {
@@ -24,17 +24,17 @@ export function SelectLevelPage() {
       <div className={styles.modal}>
         <h1 className={styles.title}>Выбери сложность</h1>
         <ul className={styles.levels}>
-          <li className={clsx(valueLevel === 3 ? styles.clicked : styles.level)}>
+          <li className={clsx(valueLevel === "3" ? styles.clicked : styles.level)}>
             <button className={styles.levelLink} value={3} onClick={handleLevel}>
               1
             </button>
           </li>
-          <li className={clsx(valueLevel === 6 ? styles.clicked : styles.level)}>
+          <li className={clsx(valueLevel === "6" ? styles.clicked : styles.level)}>
             <button className={styles.levelLink} value={6} onClick={handleLevel}>
               2
             </button>
           </li>
-          <li className={clsx(valueLevel === 9 ? styles.clicked : styles.level)}>
+          <li className={clsx(valueLevel === "9" ? styles.clicked : styles.level)}>
             <button className={styles.levelLink} value={9} onClick={handleLevel}>
               3
             </button>
