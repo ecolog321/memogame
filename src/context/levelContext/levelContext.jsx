@@ -3,11 +3,19 @@ export const LevelContext = createContext(null);
 
 export const LevelProvider = ({ children }) => {
   const [difficult, setDifficult] = useState("standart");
+  const [time, setTime] = useState();
 
   function chooseDifficult(value) {
     setDifficult(value);
-    console.log(value);
+    console.log(difficult);
   }
 
-  return <LevelContext.Provider value={{ difficult, chooseDifficult }}>{children}</LevelContext.Provider>;
+  function getTime(value) {
+    setTime(value);
+    console.log(time);
+  }
+
+  return (
+    <LevelContext.Provider value={{ difficult, time, chooseDifficult, getTime }}>{children}</LevelContext.Provider>
+  );
 };
