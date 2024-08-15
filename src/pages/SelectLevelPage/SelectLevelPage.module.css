@@ -28,6 +28,15 @@
   line-height: 48px;
 }
 
+.link {
+  color: #565eef;
+  font-size: 18px;
+  font-weight: 500;
+  padding-top: 25px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .levels {
   display: flex;
   flex-direction: row;

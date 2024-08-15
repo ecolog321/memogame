@@ -3,17 +3,23 @@ export const LevelContext = createContext(null);
 
 export const LevelProvider = ({ children }) => {
   const [difficult, setDifficult] = useState("standart");
-  const [time, setTime] = useState("45");
+  const [eyesForce, setEyesForce] = useState(false);
 
   function chooseDifficult(value) {
     setDifficult(value);
   }
 
-  function getTime(value) {
-    setTime(value);
+  function pickEyesForce() {
+    setEyesForce(true);
+  }
+
+  function resetEyesForce() {
+    setEyesForce(false);
   }
 
   return (
-    <LevelContext.Provider value={{ difficult, time, chooseDifficult, getTime }}>{children}</LevelContext.Provider>
+    <LevelContext.Provider value={{ difficult, chooseDifficult, eyesForce, pickEyesForce, resetEyesForce }}>
+      {children}
+    </LevelContext.Provider>
   );
 };

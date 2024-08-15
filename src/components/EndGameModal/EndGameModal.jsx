@@ -7,6 +7,7 @@ import celebrationImageUrl from "./images/celebration.png";
 import { useState } from "react";
 import { addLeader } from "../../api/leaderApi";
 import { useNavigate } from "react-router-dom";
+import { useLevelContext } from "../../context/hooks/useLevelContext";
 
 export function EndGameModal({ isLeader, isWon, gameDurationSeconds, gameDurationMinutes, onClick }) {
   const title = isWon ? "Вы победили!" : "Вы проиграли!";
@@ -14,22 +15,31 @@ export function EndGameModal({ isLeader, isWon, gameDurationSeconds, gameDuratio
 
   const imgAlt = isWon ? "celebration emodji" : "dead emodji";
 
-  const champWin = false;
+  const champWin = isWon && isLeader;
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
+
+  const { difficult, eyesForce } = useLevelContext();
 
   const time = gameDurationMinutes * 60 + gameDurationSeconds;
   const navigate = useNavigate();
 
   const handleUserName = e => {
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setUser(e.target.value);
   };
 
-  const sendLeader = e => {
+  const sendLeader = async e => {
     e.preventDefault();
+    const achievments = [];
+
+    if (difficult === "standart") {
+      achievments.push(1);
+    }
+    if (!eyesForce) {
+      achievments.push(2);
+    }
     try {
-      addLeader(user.name, time);
+      await addLeader(user, time, achievments);
       navigate("/leaderbord");
     } catch (error) {
       console.log(error);

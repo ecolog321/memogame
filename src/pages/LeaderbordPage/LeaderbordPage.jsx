@@ -38,12 +38,26 @@ export const LeaderbordPage = () => {
         <div className={styles.leader_block}>
           <p className={styles.leader_text}>Позиция</p>
           <p className={styles.leader_text}>Пользователь</p>
+          <p className={styles.leader_text}>Достижения</p>
           <p className={styles.leader_text}>Время</p>
         </div>
-        {!isLoading &&
-          leaders.map((elem, index) => (
-            <LeaderBlock index={index + 1} key={elem.id} name={elem.name} time={elem.time} />
-          ))}
+        {!isLoading ? (
+          leaders
+            .sort((a, b) => b.time > a.time)
+            .map((elem, index) => (
+              <LeaderBlock
+                index={index + 1}
+                key={elem.id}
+                name={elem.name}
+                time={elem.time}
+                achiv={elem.achievements}
+              />
+            ))
+        ) : (
+          <div className={styles.leader_block}>
+            <p className={styles.leader_text}>Идет загрузка...</p>
+          </div>
+        )}
       </div>
     </div>
   );

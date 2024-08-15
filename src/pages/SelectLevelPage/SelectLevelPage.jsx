@@ -12,7 +12,6 @@ export function SelectLevelPage() {
   const handleLevel = e => {
     e.preventDefault();
     setValueLevel(e.target.value);
-    console.log(e.target.value);
   };
 
   function startGame() {
@@ -57,6 +56,9 @@ export function SelectLevelPage() {
         <button className={styles.button} onClick={startGame}>
           Начать
         </button>
+        <p className={styles.link} onClick={() => navigate("/leaderbord")}>
+          Перейти к лидерборду
+        </p>
       </div>
     </div>
   );
