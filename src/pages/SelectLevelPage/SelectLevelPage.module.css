@@ -28,6 +28,15 @@
   line-height: 48px;
 }
 
+.link {
+  color: #565eef;
+  font-size: 18px;
+  font-weight: 500;
+  padding-top: 25px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .levels {
   display: flex;
   flex-direction: row;
@@ -43,9 +52,13 @@
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
-
+  cursor: pointer;
   border-radius: 12px;
-  background: #fff;
+  background: #ffffff;
+}
+
+.clicked{
+  background-color: #b91048;
 }
 
 .levelLink {
@@ -57,8 +70,97 @@
   font-weight: 400;
   line-height: 72px;
   text-decoration: none;
+  border-color: transparent;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .levelLink:visited {
   color: #0080c1;
+}
+
+.form_radio_btn {
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  background-color: #0080c1;
+  border-radius: 12px;
+  color: #fff;
+}
+.form_radio_btn input[type="radio"] {
+  display: none;
+}
+.form_radio_btn_clicked input[type="radio"] {
+  display: none;
+}
+.form_radio_btn_clicked {
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  background-color: #00324b;
+  border-radius: 12px;
+  color: #fff;
+}
+.form_radio_btn label {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0px 15px;
+  line-height: 34px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  user-select: none;
+  border-radius: 15px;
+}
+
+.form_radio_btn_clicked label {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0px 15px;
+  line-height: 34px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  user-select: none;
+  border-radius: 15px;
+}
+
+/* Checked */
+.form_radio_btn input[type="radio"]:checked + label {
+  background: #9c7707;
+  color: #7ac100;
+  font-size: 30px;
+}
+
+/* Hover */
+.form_radio_btn label:hover {
+  color: #5b1d8d;
+}
+
+.button {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 28px;
+  background-color: #7ac100;
+  width: 200px;
+  height: 80px;
+  border-radius: 12px;
+  border: transparent;
+  cursor: pointer;
+}
+
+.difficult {
+  margin-bottom: 15px;
+}
+
+.clicked {
+  display: flex;
+  width: 97px;
+  height: 98px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background-color: #999;
+  cursor: pointer;
 }

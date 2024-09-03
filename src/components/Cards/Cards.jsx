@@ -5,11 +5,15 @@ import styles from "./Cards.module.css";
 import { EndGameModal } from "../../components/EndGameModal/EndGameModal";
 import { Button } from "../../components/Button/Button";
 import { Card } from "../../components/Card/Card";
+import { useLevelContext } from "../../context/hooks/useLevelContext";
+import imgEyes from "./images/eyes.svg";
+import clsx from "clsx";
 
 // Игра закончилась
 const STATUS_LOST = "STATUS_LOST";
 const STATUS_WON = "STATUS_WON";
-// Идет игра: карты закрыты, игрок может их открыть
+const STATUS_PAUSE = "STATUS_PAUSE";
+// Идет игра: карты закрыты, игрок может их открыть, пауза
 const STATUS_IN_PROGRESS = "STATUS_IN_PROGRESS";
 // Начало игры: игрок видит все карты в течении нескольких секунд
 const STATUS_PREVIEW = "STATUS_PREVIEW";
@@ -51,6 +55,9 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   // Дата конца игры
   const [gameEndDate, setGameEndDate] = useState(null);
 
+  const { difficult, eyesForce, pickEyesForce, resetEyesForce } = useLevelContext();
+  //количество жизней
+  const [lifePoint, setLifePoint] = useState(difficult === "easy" ? 3 : 1);
   // Стейт для таймера, высчитывается в setInteval на основе gameStartDate и gameEndDate
   const [timer, setTimer] = useState({
     seconds: 0,
@@ -73,6 +80,12 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
     setGameEndDate(null);
     setTimer(getTimerValue(null, null));
     setStatus(STATUS_PREVIEW);
+    setLifePoint(difficult === "standart" ? 1 : 3);
+    resetEyesForce();
+  }
+
+  function handleLifePoints() {
+    setLifePoint(lifePoint - 1);
   }
 
   /**
@@ -124,9 +137,18 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
     });
 
     const playerLost = openCardsWithoutPair.length >= 2;
-
     // "Игрок проиграл", т.к на поле есть две открытые карты без пары
     if (playerLost) {
+      setTimeout(() => {
+        const gueesedCard = cards.map(card => {
+          return openCardsWithoutPair.find(c => c.id === card.id) ? { ...card, open: false } : { ...card };
+        });
+        setCards(gueesedCard);
+      }, 300);
+      handleLifePoints();
+    }
+
+    if (lifePoint < 1) {
       finishGame(STATUS_LOST);
       return;
     }
@@ -164,13 +186,49 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
 
   // Обновляем значение таймера в интервале
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTimer(getTimerValue(gameStartDate, gameEndDate));
-    }, 300);
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [gameStartDate, gameEndDate]);
+    if (status !== STATUS_PAUSE) {
+      if (status === STATUS_LOST) return;
+      if (status === STATUS_WON) return;
+      const intervalId = setInterval(() => {
+        setTimer(prevTimer => {
+          if (prevTimer) {
+            const seconds = prevTimer.seconds === 59 ? 0 : prevTimer.seconds + 1;
+            const minutes = prevTimer.minutes === 59 ? prevTimer.minutes + 1 : prevTimer.minutes;
+            return { seconds, minutes };
+          }
+          return prevTimer;
+        });
+      }, 1000);
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+  }, [status, gameStartDate, gameEndDate]);
+
+  const handleUseEyesForce = () => {
+    setStatus(STATUS_PAUSE);
+    pickEyesForce();
+
+    const openCards = cards.filter(card => card.open);
+
+    const openCardsAll = cards.map(card => ({ ...card, open: true }));
+
+    setCards(openCardsAll);
+
+    setTimeout(() => {
+      const closedCards = cards.map(card => {
+        if (openCards.some(openCard => openCard.id === card.id)) {
+          return { ...card, open: true };
+        } else {
+          return { ...card, open: false };
+        }
+      });
+
+      setCards(closedCards);
+
+      setStatus(STATUS_IN_PROGRESS);
+    }, 5000);
+  };
 
   return (
     <div className={styles.container}>
@@ -183,6 +241,10 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
             </div>
           ) : (
             <>
+              <p className={styles.previewText}>Количество жизней {lifePoint}</p>
+              <div className={clsx(eyesForce ? styles.used_force : styles.force)} onClick={handleUseEyesForce}>
+                <img className={styles.img} src={imgEyes} alt="" />
+              </div>
               <div className={styles.timerValue}>
                 <div className={styles.timerDescription}>min</div>
                 <div>{timer.minutes.toString().padStart("2", "0")}</div>
@@ -195,7 +257,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
             </>
           )}
         </div>
-        {status === STATUS_IN_PROGRESS ? <Button onClick={resetGame}>Начать заново</Button> : null}
+        {status === (STATUS_IN_PROGRESS || STATUS_PAUSE) ? <Button onClick={resetGame}>Начать заново</Button> : null}
       </div>
 
       <div className={styles.cards}>
@@ -217,6 +279,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
             gameDurationSeconds={timer.seconds}
             gameDurationMinutes={timer.minutes}
             onClick={resetGame}
+            isLeader={pairsCount === 9}
           />
         </div>
       ) : null}
